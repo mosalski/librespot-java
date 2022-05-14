@@ -19,6 +19,7 @@ package xyz.gianlu.librespot.player;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import xyz.gianlu.librespot.audio.decoders.AudioQuality;
+import xyz.gianlu.librespot.audio.format.AudioQualityPicker;
 
 import java.io.File;
 
@@ -33,6 +34,7 @@ public final class PlayerConfiguration {
     public final boolean autoplayEnabled;
     public final int crossfadeDuration;
     public final boolean preloadEnabled;
+    public AudioQualityPicker preferredQualityPicker;
 
     // Output
     public final AudioOutput output;
@@ -54,7 +56,7 @@ public final class PlayerConfiguration {
 
     private PlayerConfiguration(AudioQuality preferredQuality, boolean enableNormalisation, float normalisationPregain, boolean autoplayEnabled, int crossfadeDuration, boolean preloadEnabled,
                                 AudioOutput output, String outputClass, Object[] outputClassParams, File outputPipe, File metadataPipe, String[] mixerSearchKeywords, boolean logAvailableMixers, int releaseLineDelay,
-                                int initialVolume, int volumeSteps, boolean bypassSinkVolume, File localFilesPath) {
+                                int initialVolume, int volumeSteps, boolean bypassSinkVolume, File localFilesPath, AudioQualityPicker preferredQualityPicker) {
         this.preferredQuality = preferredQuality;
         this.enableNormalisation = enableNormalisation;
         this.normalisationPregain = normalisationPregain;
@@ -73,6 +75,7 @@ public final class PlayerConfiguration {
         this.preloadEnabled = preloadEnabled;
         this.bypassSinkVolume = bypassSinkVolume;
         this.localFilesPath = localFilesPath;
+        this.preferredQualityPicker = preferredQualityPicker;
     }
 
     public enum AudioOutput {
@@ -87,6 +90,7 @@ public final class PlayerConfiguration {
         private boolean autoplayEnabled = true;
         private int crossfadeDuration = 0;
         private boolean preloadEnabled = true;
+        public AudioQualityPicker preferredQualityPicker = null;
 
         // Output
         private AudioOutput output = AudioOutput.MIXER;
@@ -205,11 +209,16 @@ public final class PlayerConfiguration {
             return this;
         }
 
+        public Builder setPreferredQualityPicker(AudioQualityPicker preferredQualityPicker) {
+            this.preferredQualityPicker = preferredQualityPicker;
+            return this;
+        }
+
         @Contract(value = " -> new", pure = true)
         public @NotNull PlayerConfiguration build() {
             return new PlayerConfiguration(preferredQuality, enableNormalisation, normalisationPregain, autoplayEnabled, crossfadeDuration, preloadEnabled,
                     output, outputClass, outputClassParams, outputPipe, metadataPipe, mixerSearchKeywords, logAvailableMixers, releaseLineDelay,
-                    initialVolume, volumeSteps, bypassSinkVolume, localFilesPath);
+                    initialVolume, volumeSteps, bypassSinkVolume, localFilesPath, preferredQualityPicker);
         }
     }
 }

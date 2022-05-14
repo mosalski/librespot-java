@@ -23,11 +23,15 @@ import org.jetbrains.annotations.NotNull;
  * @author Gianlu
  */
 public enum SuperAudioFormat {
-    MP3, VORBIS, AAC;
+    MP3, VORBIS, AAC, FLAC, EXTENDED_AAC;
 
     @NotNull
     public static SuperAudioFormat get(@NotNull Metadata.AudioFile.Format format) {
         switch (format) {
+            case XHE_AAC_12:
+            case XHE_AAC_16:
+            case XHE_AAC_24:
+                return EXTENDED_AAC;
             case OGG_VORBIS_96:
             case OGG_VORBIS_160:
             case OGG_VORBIS_320:
@@ -40,8 +44,9 @@ public enum SuperAudioFormat {
                 return MP3;
             case AAC_24:
             case AAC_48:
-            case AAC_24_NORM:
                 return AAC;
+            case FLAC_FLAC:
+                return FLAC;
             default:
                 throw new IllegalArgumentException("Unknown audio format: " + format);
         }

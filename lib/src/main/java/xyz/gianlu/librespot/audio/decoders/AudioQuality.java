@@ -26,25 +26,30 @@ import java.util.List;
  * @author Gianlu
  */
 public enum AudioQuality {
-    NORMAL, HIGH, VERY_HIGH;
+    LOW, NORMAL, HIGH, VERY_HIGH, FLAC;
 
     @NotNull
     private static AudioQuality getQuality(@NotNull AudioFile.Format format) {
         switch (format) {
+            case XHE_AAC_12:
+            case XHE_AAC_16:
+            case XHE_AAC_24:
+            case AAC_24:
+                return LOW;
             case MP3_96:
             case OGG_VORBIS_96:
-            case AAC_24_NORM:
                 return NORMAL;
             case MP3_160:
             case MP3_160_ENC:
             case OGG_VORBIS_160:
-            case AAC_24:
                 return HIGH;
             case MP3_320:
             case MP3_256:
             case OGG_VORBIS_320:
             case AAC_48:
                 return VERY_HIGH;
+            case FLAC_FLAC:
+                return FLAC;
             default:
                 throw new IllegalArgumentException("Unknown format: " + format);
         }

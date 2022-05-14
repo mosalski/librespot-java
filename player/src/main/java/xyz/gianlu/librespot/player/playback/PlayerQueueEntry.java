@@ -112,7 +112,7 @@ class PlayerQueueEntry extends PlayerQueue.Entry implements Closeable, Runnable,
             stream = PlayableContentFeeder.LoadedStream.forLocalFile((LocalId) playable,
                     new File(conf.localFilesPath, ((LocalId) playable).name()));
         else
-            stream = session.contentFeeder().load(playable, new VorbisOnlyAudioQuality(conf.preferredQuality), preload, this);
+            stream = session.contentFeeder().load(playable, conf.preferredQualityPicker != null ? conf.preferredQualityPicker : new VorbisOnlyAudioQuality(conf.preferredQuality), preload, this);
 
         metadata = stream.metadata;
         contentMetrics = stream.metrics;
