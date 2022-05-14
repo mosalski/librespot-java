@@ -1539,4 +1539,12 @@ public class StateWrapper implements DeviceStateHandler.Listener, DealerClient.M
             updateMetadataFor(index, key, value);
         }
     }
+
+    // ============================================== //
+    // ============ JSP-specific patches ============ //
+    // ============================================== //
+
+    public PlayerState.Builder getState() {
+        return state;
+    }
 }

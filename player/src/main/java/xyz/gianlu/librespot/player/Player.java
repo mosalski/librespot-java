@@ -1165,4 +1165,16 @@ public class Player implements Closeable {
             listeners.clear();
         }
     }
+
+    // ============================================== //
+    // ============ JSP-specific patches ============ //
+    // ============================================== //
+
+    public StateWrapper getStateWrapper() {
+        return state;
+    }
+
+    public void callPlayFromObj(JsonObject obj) {
+        this.handlePlay(obj);
+    }
 }
