@@ -26,6 +26,7 @@ message EntityCanvazResponse {
         string uploaded_by = 8;
         string etag = 9;
         string canvas_uri = 11;
+        string storylines_id = 12;
     }
 
     int64 ttl_in_seconds = 2;
