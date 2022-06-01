@@ -21,6 +21,7 @@ import com.google.gson.JsonParser;
 import com.spotify.context.ContextOuterClass.Context;
 import com.spotify.context.ContextTrackOuterClass.ContextTrack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import xyz.gianlu.librespot.common.ProtoUtils;
 import xyz.gianlu.librespot.core.Session;
 import xyz.gianlu.librespot.mercury.MercuryClient;
@@ -138,6 +139,15 @@ public final class PagesLoader {
     @NotNull
     List<ContextTrack> currentPage() throws IOException, MercuryClient.MercuryException {
         return getPage(currentPage);
+    }
+
+    @Nullable
+    String currentPageDescription() {
+        try {
+            return pages.get(currentPage).getMetadataMap().get("context_description");
+        } catch (IllegalStateException ex) {
+            return null;
+        }
     }
 
     boolean nextPage() throws IOException, MercuryClient.MercuryException {

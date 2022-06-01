@@ -278,6 +278,13 @@ public class Player implements Closeable {
         state.updated();
     }
 
+    public void notifyAboutUpdatedQueue() {
+        ArrayList<ContextTrack> tracks = new ArrayList<>(state.getPrevTracks());
+        tracks.add(state.getCurrentTrack());
+        tracks.addAll(state.getNextTracks(true));
+        events.queueChanged(tracks);
+    }
+
     @NotNull
     public Future<Player> ready() {
         CompletableFuture<Player> future = new CompletableFuture<>();
@@ -862,7 +869,7 @@ public class Player implements Closeable {
     }
 
     public interface EventsListener {
-        void onContextChanged(@NotNull Player player, @NotNull String newUri);
+        void onContextChanged(@NotNull Player player, @NotNull String newUri, @Nullable String ctxDescription);
 
         void onTrackChanged(@NotNull Player player, @NotNull PlayableId id, @Nullable MetadataWrapper metadata, boolean userInitiated);
 
@@ -889,6 +896,8 @@ public class Player implements Closeable {
         void onStartedLoading(@NotNull Player player);
 
         void onFinishedLoading(@NotNull Player player);
+
+        default void onQueueChanged(@NotNull Player player, List<ContextTrack> queue) {};
     }
 
     /**
@@ -980,7 +989,7 @@ public class Player implements Closeable {
                 DacpMetadataPipe dacpPipe = new DacpMetadataPipe(conf.metadataPipe);
                 listeners.add(new Player.EventsListener() {
                     @Override
-                    public void onContextChanged(@NotNull Player player, @NotNull String newUri) {
+                    public void onContextChanged(@NotNull Player player, @NotNull String newUri, @NotNull String ctxDescription) {
                     }
 
                     @Override
@@ -1092,7 +1101,7 @@ public class Player implements Closeable {
             if (uri == null) return;
 
             for (EventsListener l : new ArrayList<>(listeners))
-                executorService.execute(() -> l.onContextChanged(Player.this, uri));
+                executorService.execute(() -> l.onContextChanged(Player.this, uri, state.getContextDescription()));
         }
 
         void startedLoading() {
@@ -1143,6 +1152,11 @@ public class Player implements Closeable {
         void inactiveSession(boolean timeout) {
             for (EventsListener l : new ArrayList<>(listeners))
                 executorService.execute(() -> l.onInactiveSession(Player.this, timeout));
+        }
+
+        void queueChanged(List<ContextTrack> queue) {
+            for (EventsListener l : new ArrayList<>(listeners))
+                executorService.execute(() -> l.onQueueChanged(Player.this, queue));
         }
 
         private void panicState() {
