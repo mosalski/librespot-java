@@ -46,7 +46,7 @@ public final class EventsHandler extends WebSocketProtocolHandshakeHandler imple
     }
 
     @Override
-    public void onContextChanged(@NotNull Player player, @NotNull String newUri, @Nullable String ctxDescription) {
+    public void onContextChanged(@NotNull Player player, @NotNull String newUri) {
         JsonObject obj = new JsonObject();
         obj.addProperty("event", "contextChanged");
         obj.addProperty("uri", newUri);

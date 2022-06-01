@@ -59,7 +59,7 @@ public final class ShellEvents implements Player.EventsListener, Session.Reconne
     }
 
     @Override
-    public void onContextChanged(@NotNull Player player, @NotNull String newUri, @Nullable String ctxDescription) {
+    public void onContextChanged(@NotNull Player player, @NotNull String newUri) {
         exec(conf.onContextChanged, "CONTEXT_URI=" + newUri);
     }
 

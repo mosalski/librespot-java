@@ -24,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.gianlu.librespot.common.ProtoUtils;
 import xyz.gianlu.librespot.core.Session;
+import xyz.gianlu.librespot.json.ResolvedContextWrapper;
 import xyz.gianlu.librespot.mercury.MercuryClient;
 import xyz.gianlu.librespot.mercury.MercuryRequests;
 import xyz.gianlu.librespot.mercury.RawMercuryRequest;
@@ -45,6 +46,7 @@ public final class PagesLoader {
     private final Session session;
     private String resolveUrl = null;
     private int currentPage = -1;
+    private String zeroPageContextDescription = null;
 
     private PagesLoader(@NotNull Session session) {
         this.session = session;
@@ -108,8 +110,11 @@ public final class PagesLoader {
     private List<ContextTrack> getPage(int index) throws IOException, IllegalStateException, MercuryClient.MercuryException {
         if (index == -1) throw new IllegalStateException("You must call nextPage() first!");
 
-        if (index == 0 && pages.isEmpty() && resolveUrl != null)
-            pages.addAll(session.mercury().sendSync(MercuryRequests.resolveContext(resolveUrl)).pages());
+        if (index == 0 && pages.isEmpty() && resolveUrl != null) {
+            ResolvedContextWrapper rcw = session.mercury().sendSync(MercuryRequests.resolveContext(resolveUrl));
+            zeroPageContextDescription = rcw.metadata().get("context_description").getAsString();
+            pages.addAll(rcw.pages());
+        }
 
         resolveUrl = null;
 
@@ -143,11 +148,7 @@ public final class PagesLoader {
 
     @Nullable
     String currentPageDescription() {
-        try {
-            return pages.get(currentPage).getMetadataMap().get("context_description");
-        } catch (IllegalStateException ex) {
-            return null;
-        }
+        return zeroPageContextDescription;
     }
 
     boolean nextPage() throws IOException, MercuryClient.MercuryException {

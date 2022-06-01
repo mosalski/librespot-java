@@ -1162,6 +1162,8 @@ public class StateWrapper implements DeviceStateHandler.Listener, DealerClient.M
             if (areAllUnplayable(tracks))
                 throw AbsSpotifyContext.UnsupportedContextException.cannotPlayAnything();
 
+            player.notifyAboutUpdatedContextDescription(pages.currentPageDescription());
+
             try {
                 if (track != null) enrichCurrentTrack(track);
             } catch (IllegalArgumentException ex) {
