@@ -901,9 +901,9 @@ public class Player implements Closeable {
 
         void onFinishedLoading(@NotNull Player player);
 
-        default void onQueueChanged(@NotNull Player player, List<ContextTrack> queue) {}
+        default void onQueueChanged(@NotNull Player player, @NotNull List<ContextTrack> queue) {}
 
-        default void onContextDescriptionChanged(@NotNull Player player, String description) {}
+        default void onContextDescriptionChanged(@NotNull Player player, @Nullable String description) {}
     }
 
     /**

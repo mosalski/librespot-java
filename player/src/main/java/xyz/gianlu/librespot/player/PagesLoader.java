@@ -112,7 +112,7 @@ public final class PagesLoader {
 
         if (index == 0 && pages.isEmpty() && resolveUrl != null) {
             ResolvedContextWrapper rcw = session.mercury().sendSync(MercuryRequests.resolveContext(resolveUrl));
-            zeroPageContextDescription = rcw.metadata().get("context_description").getAsString();
+            zeroPageContextDescription = (rcw.metadata() != null && rcw.metadata().has("context_description")) ? rcw.metadata().get("context_description").getAsString() : null;
             pages.addAll(rcw.pages());
         }
 
