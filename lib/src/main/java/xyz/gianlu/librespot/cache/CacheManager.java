@@ -131,6 +131,26 @@ public class CacheManager implements Closeable {
         if (journal != null) journal.close();
     }
 
+    // Performs exists(..) cleanup process + removes ALL journal entries
+    public void clearEverything() throws IOException {
+        List<String> entries = journal.getEntries();
+
+        Iterator<String> iter = entries.iterator();
+        while (iter.hasNext()) {
+            String id = iter.next();
+            if (!exists(parent, id)) {
+                iter.remove();
+                journal.remove(id);
+            }
+        }
+
+        for (String id : entries) {
+            JournalHeader header = journal.getHeader(id, HEADER_TIMESTAMP);
+            if (header == null) continue;
+            remove(id);
+        }
+    }
+
     @Nullable
     public Handler getHandler(@NotNull String id) throws IOException {
         if (journal == null) return null;
