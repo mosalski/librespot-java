@@ -21,7 +21,7 @@
     <groupId>xyz.gianlu.librespot</groupId>
     <artifactId>librespot-java</artifactId>
     <packaging>pom</packaging>
-    <version>1.6.4-SNAPSHOT</version>
+    <version>1.6.4</version>
 
     <name>librespot-java</name>
     <description>Java port of librespot, the Open Source Spotify client library</description>
@@ -54,9 +54,9 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <gson.version>2.10.1</gson.version>
-        <protobuf.version>3.25.0</protobuf.version>
-        <slf4j-api.version>2.0.9</slf4j-api.version>
-        <log4j.version>2.21.1</log4j.version>
+        <protobuf.version>3.25.2</protobuf.version>
+        <slf4j-api.version>2.0.16</slf4j-api.version>
+        <log4j.version>2.23.1</log4j.version>
         <lmax-disruptor.version>3.4.4</lmax-disruptor.version>
     </properties>
 
@@ -75,14 +75,14 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>24.0.1</version>
+            <version>24.1.0</version>
         </dependency>
 
         <!-- Unit tests -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.10.1</version>
+            <version>5.10.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -93,7 +93,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.2</version>
+                <version>3.2.5</version>
             </plugin>
         </plugins>
     </build>
@@ -132,7 +132,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>3.3.0</version>
+                        <version>3.3.1</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -145,7 +145,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.6.2</version>
+                        <version>3.6.3</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
@@ -176,7 +176,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>3.1.0</version>
+                        <version>3.2.4</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
