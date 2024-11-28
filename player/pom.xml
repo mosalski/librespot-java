@@ -93,6 +93,12 @@
             <groupId>xyz.gianlu.librespot</groupId>
             <artifactId>librespot-lib</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>xyz.gianlu.zeroconf</groupId>
+                    <artifactId>zeroconf</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>xyz.gianlu.librespot</groupId>
