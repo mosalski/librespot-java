@@ -1,5 +1,0 @@
-jdk:
-  - openjdk11
-
-maven:
-  version: 3.6.3
